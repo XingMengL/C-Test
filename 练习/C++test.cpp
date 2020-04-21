@@ -221,8 +221,8 @@ int main()
 	return 0;
 }
 #endif
-
-/*int main()
+#if 0 
+int main()
 {
 	double  a = 13.4;
 	const int& ra = a;
@@ -236,7 +236,8 @@ int main()
 
 	system("pause");
 	return 0;
-}*/
+}
+#endif
 #if 0
 //引用做参数 相当于传地址 可以通过形参改变外部的实参
 void Add(int& left,int& right)
@@ -292,6 +293,7 @@ int main()
 
 }
 #endif
+#if 0
 #include <time.h>
 
  struct test
@@ -333,4 +335,106 @@ int main()
 	system("pause");
 	return 0;
 }
+#endif
+#if 0
+int main()
+{
+	int a = 10;
+	int & ra = a;
+
+	cout<<a<<" "<<ra<<endl;
+	cout<<&a<<" "<<&ra<<endl;
+	system("pause");
+	return 0;
+}
+#endif
+#if 0
+int main()
+{
+	 int a = 10;
+     int& ra = a;	
+	 int c = 100;
+	
+	  
+	cout<<a<<" "<<ra<<" "<<c<<endl;
+	cout<<a<<" "<<ra<<" "<<c<<endl;
+	cout<<&a<<" "<<&ra<<" "<<&c<<endl;
+	system("pause");
+
+	return 0;
+}
+#endif
+#if 0
+int main()
+{
+	double  a = 13.4;
+	const int& ra = a;
+	double b = 10.3;
+	const double& rab = a+b;
+	cout<<a<<" "<<b<<" "<<rab<<endl;
+     a = 1.2,b = 1.3; 
+	cout<<a<<" "<<b<<" "<<rab<<endl;
+
+	//cout<<a<<" "<<ra<<endl;// a = 13.4 ra = 13
+	
+	//a = 20.6;
+	
+	//cout<<a<<" "<<ra<<endl; //a = 20.6 ra = 13
+	//cout<<&a<<" "<<&ra<<endl; 
+
+
+	system("pause");
+	return 0;
+}
+#endif
+#if 0
+void test(const int & ra)
+{
+	ra++;
+}
+int main()
+{
+
+	int a = 10;
+	double b = 12;
+
+	test(a+3);
+	 //const int a = 10;
+	 //const int& ra = a;
+
+	//cout<< &a <<" "<<&ra<<endl;
+	system("pause");
+	return 0;
+}
+#endif
+#if 0
+int func(const int& ra)
+{
+	int a = ra*ra;
+	return ra;
+}
+int main()
+{
+	int a = 2;
+	
+	int ret = func(a);
+
+	cout<<a<<" "<<ret<<" "<<endl;
+
+	system("pause");
+	return 0;
+
+}
+#endif
+int main()
+{   
+	int a = 10;   
+	int& ra = a;    
+	ra = 20;       
+	int* pa = &a;    
+	*pa = 20;   
+
+	return 0; 
+}
+
 
