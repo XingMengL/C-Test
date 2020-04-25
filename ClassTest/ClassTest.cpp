@@ -57,15 +57,18 @@ int main()
 3.建议将声明和定义分开---为了防止重复得包含
 */
 #endif
-
+#if 0
 // 访问限定符
 //面向对象三大特性：封装、继承、多态
 //封装：将数据和操作数据的方法进行有机结合，隐藏对象的属性和实现细节，仅对外公开接口和对象进行交互
 //C++中通过类将数据和操作数据的方法包装起来
 //使用访问权限：来控制那些方法可以在外部直接被调用
+//访问限定符限制的是该成员是否能在类外直接使用，对类中访问没有限定
+//一个类就是一个作用域
+//C++作用域：全局作用域、函数体中的局部作用域、命名空间、类域
 class student
 {
-public://
+public:
 	void InisStudent(char* name,char* gender,int age)
 	{
 		strcpy(_name,name);
@@ -78,7 +81,7 @@ public://
 	{
 		cout<<_name<<" "<<_gender<<" "<<_age<<endl;
 	}
-private://
+private:
 	char _name[20];
 	char _gender[4];
 protected:
@@ -95,8 +98,372 @@ int main()
 	s1.Print();
 	s2.Print();
 
-	cout<<s1._name<<endl;
-	cout<<s1._age<<endl;
+	//cout<<s1._name<<endl;
+	//cout<<s1._age<<endl;
+
+	system("pause");
+	return 0;
+}
+#endif
+#if 0
+//一个类就是一个作用域
+//C++作用域：全局作用域、函数体中的局部作用域、命名空间、类域
+void Testfunc()
+{}
+namespace N
+{
+	void Testfunc();
+}
+
+class student
+{
+public:
+	void Testfunc()
+	{
+	
+	}
+
+};
+//Testfunc隶属于不同的作用域，不够成函数重载
+int main()
+{
+	system("pause");
+	return 0;
+}
+#endif
+
+#if 0
+struct student{
+
+	char _name[20];
+	char _gender[4];
+	int _age;
+};
+void SutdentInit(student* s,char* name,char* gender,int age)
+{
+	strcpy(s->_name,name);
+	strcpy(s->_gender,gender);
+	s->_age = age;
+}
+
+int main()
+{
+	student s1,s2;
+	SutdentInit(&s1,"张三","男",36);
+
+	return 0;
+}
+#endif
+#if 0
+class student{
+
+public:
+	void SutdentInit(char* name,char* gender,int age)
+{
+	cout<<this<<endl;
+	strcpy(this->_name,name);
+	strcpy(this->_gender,gender);
+	this->_age = age;
+}
+	
+
+private:
+	char _name[20];
+	char _gender[4];
+	int _age;
+};
+
+int main()
+{
+	student s1,s2;
+	s1.SutdentInit("张三","男",36);
+
+	system("pause");
+
+	return 0;
+}
+#endif
+
+#if 0
+class Data
+{
+public:
+	//构成函数与类名相同，没有返回值
+	Data(int year,int month,int day)
+	{
+		_year = year;
+		_month = month;
+		_day = day;
+	}
+	void InitData(int year,int month,int day)//初始化
+	{
+		_year = year;
+		_month = month;
+		_day = day;
+		
+	}
+	void Print()
+	{
+		cout<<_year<<"/"<<_month<<"/"<<_day<<endl;
+	}
+private:
+	int _year;
+	int _month;
+	int _day;
+};
+
+int main()
+{
+	//Data b;			//没有定义构造函数，对象也可以创建成功，因此此处调用的是编译器生成的默认构造函数	
+	Data a(2020,04,05);//构造函数可以在对象定义时就对其进行初始化
+	a.Print();
+	//Data b;          //编译报错  “Data”: 没有合适的默认构造函数可用，因为在类中定义了一个构造函数则编译器生成默认的构造函数
+			           //则类中就没有合适的构造函数可用
+	
+	
+	// 通过背后的汇编代码：
+	// lea         ecx, [d]
+	// call        Date::Date(0251357h): 在创建对象d期间确实调用构造函数
+	system("pause");
+	return 0;
+}
+#endif
+#if 0
+class Tim
+{
+public:
+	Tim() //构造函数
+	{
+		cout<<"Tim()"<<endl;
+		this->_hour = 0;
+		this->_minute=0;
+		this->_second =0;
+	}
+	~Tim()
+	{
+		cout<<"~Tim()"<<endl;
+	}
+private:
+	int _hour;
+	int _minute;    
+	int _second; 
+};
+class Data
+{
+public:
+	 Data(int year,int month,int day)//初始化函数
+	{
+		_year = year;
+		_month = month;
+		_day = day;
+		
+	}
+	void Print()
+	{
+		cout<<_year<<"/"<<_month<<"/"<<_day<<endl;
+	}
+private:
+	int _year;
+	int _month;
+	int _day;
+
+	Tim _tim; //自定义类型  编译器生成默认的构造函数会对自定类型成员_tim调用的它的默认成员函数
+ 
+};
+
+int main()
+{
+	Data a(2020,04,25);
+	a.Print();//
+	
+	system("pause");
+	return 0;
+}
+#endif
+#if 0
+class A
+{
+public:
+	A( )//无参的构造函数
+	{
+	cout<<"A( )默认构造函数"<<endl;
+	}
+	A(int a = 10 ,int b = 20)
+	{
+		cout<<"A( )默认构造函数"<<endl;
+	}
+// 默认的构造函数：
+// 1. 用户定义的无参构造函数
+// 2. 用户定义带有全缺省的构造函数---所有参数都带有默认值
+// 3. 如果用户没有显式定义任何构造函数，编译器会自动生成一个无参的构造函数
+// 默认的构造函数：只能存在一个
+
+
+
+//个人理解：构造函数与默认构造函数 ： 默认构造函数是构造函数，构造函数不一定是默认构造函数
+									  默认构造函数在对象的创建时不需要传参  A a; 类名 + 对象
+									  构造函数在对象的创建时需要根据构造函数的参数列表传参  A a(...) 
+};
+
+int main()
+{
+	//A a();  // 使用无参构造函数创建对象时，不应在对象名后面加上括号  A a(void)”: 未调用原型函数(是否是有意用变量定义的?)
+	A a;
+	//A b;  //编译报错 
+
+	
+	system("pause");
+	return 0;
+}
+#endif
+#if 0
+class Data
+{
+public:
+	
+	Data()
+	{
+		_year = 2020;
+		_month = 5;
+		_day = 1;
+	}
+	Data(int year,int month,int day)
+	{
+		_year = year;
+		_month = month;
+		_day = day;
+	}
+	void InitData(int year,int month,int day)//初始化
+	{
+		_year = year;
+		_month = month;
+		_day = day;
+		
+	}
+	void Print()
+	{
+		cout<<_year<<"/"<<_month<<"/"<<_day<<endl;
+	}
+private:
+	int _year;
+	int _month;
+	int _day;
+};
+
+int main()
+{
+	Data a;
+    Data b(2020,4,25);
+	
+	
+
+	system("pause");
+    return 0;
+}
+#endif
+#if 0
+class XML{
+
+public:
+	XML()
+	{
+	
+	}
+//
+	...
+};
+
+class XML{
+
+public:
+	XML(int a = 10,int b =10)
+	{
+	
+	}
+	//
+	...
+};
+
+class XML{
+
+	//
+	...
+};
+#endif
+#pragma warning (disable:4018)
+typedef int SQDataType;
+class SeqList
+{
+public:
+	 SeqList()
+	{
+		_array = (SQDataType*)malloc(sizeof(SQDataType)*10);
+		if(nullptr == _array)
+		{
+			return;
+		}
+		_size = 0;
+		_capacity = 10;
+	}
+	 void PushBack(const SQDataType& val)
+	 {
+		 _array[_size++] = val;
+	 }
+	 	void PopBack()
+	{
+		if (Empty())
+			return;
+
+		_size--;
+	}
+
+	size_t Size()
+	{
+		return _size;
+	}
+
+	size_t Capacity()
+	{
+		return _capacity;
+	}
+
+	bool Empty()
+	{
+		return 0 == _size;
+	}
+		void PrintSeqList()
+	{
+		for (size_t i = 0; i < _size; ++i)
+		{
+			cout << _array[i] << " ";
+		}
+		cout << endl;
+	}
+
+private:
+	SQDataType* _array;
+	int _size;
+	int _capacity;
+};
+
+void TestSeqList()
+{
+	SeqList s;
+	s.PushBack(1);
+	s.PushBack(2);
+	s.PushBack(3);
+	s.PushBack(4);
+
+	cout << s.Size() << endl;
+	cout << s.Capacity() << endl;
+
+	s.PopBack();
+	s.PrintSeqList();
+}
+
+int main()
+{
+	TestSeqList();
 
 	system("pause");
 	return 0;
