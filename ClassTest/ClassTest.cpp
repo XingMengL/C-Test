@@ -390,6 +390,7 @@ class XML{
 	...
 };
 #endif
+#if 0
 #pragma warning (disable:4018)
 typedef int SQDataType;
 class SeqList
@@ -467,4 +468,71 @@ int main()
 
 	system("pause");
 	return 0;
+}
+#endif
+
+class String{
+	
+public:
+		String(char* str = "")//构造函数
+		{
+			cout<<this<<"String()"<<endl;
+			_str = (char*)malloc(sizeof(char)*(strlen(str)+1));
+			strcpy(_str,str);
+		}
+		~String()//析构函数   _str在堆上申请空间
+		{
+			if(_str)
+			{
+			 cout<<this<<"~String()"<<endl;
+			 free(_str);
+			 _str = nullptr;
+
+			}
+		
+		}
+
+private:
+	char* _str;
+};
+class student{
+
+public:
+	/*student(char* name,char* gender,int age)//构造函数
+{
+	cout<<this<<endl;
+	strcpy(_name,name);
+	strcpy(_gender,gender);
+	this->_age = age;
+}*/
+	student()
+	{
+	cout<<this<<"student"<<endl;
+	
+	}
+   ~student()//析构函数：无返回值，无参，用来释放对象中的资源
+			  //一个类中只能有一个析构函数，在对象的生命周期结束时，C++编译器会自动调用
+   {
+	   cout<<this<<"~student"<<endl;
+              }
+	
+
+private:
+	String _name;
+	String  _gender;
+	int _age;
+};
+void Test()
+{
+	
+	String s1("hello");
+	String s2("你好");
+	student stu1;
+
+}
+
+int main()
+{
+	Test(); 
+	system("pause");
 }
