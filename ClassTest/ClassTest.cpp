@@ -471,6 +471,7 @@ int main()
 }
 #endif
 
+#if 0
 class String{
 	
 public:
@@ -536,3 +537,414 @@ int main()
 	Test(); 
 	system("pause");
 }
+#endif
+#if 0
+class Date
+{
+public:
+	Date(int year = 2020,int month = 1,int day = 1)//默认构造函数
+		:_year(year)
+		,_month(month)
+		,_day(day)
+	{
+		
+	}
+	~Date()
+	{
+		cout<<this<<" "<<"~Date()"<<endl;
+	}
+	void Print()
+	{	
+		cout<<this<<" "<<_year<<" "<<_month<<" "<<_day<<" "<<endl;	
+	}
+
+private:
+	int _year;
+	int _month;
+	int _day;
+};
+
+int main()
+{
+	Date d1;
+	d1.Print();
+
+	Date d2(d1);// 若未显示定义，系统生成默认的拷贝构造函数。
+				//默认的拷贝构造函数对象按内存存储按字节序完成拷贝，这种拷贝我们叫做浅拷贝，或者值拷贝。
+ 
+	d2.Print();
+
+	system("pause");
+	return 0;
+
+}
+#endif
+
+
+#if 0
+class String{
+	
+public:
+		String(char* str = "")//构造函数
+		{
+			cout<<this<<"String()"<<endl;
+			_str = (char*)malloc(sizeof(char)*(strlen(str)+1));
+			strcpy(_str,str);
+		}
+		~String()//析构函数   _str在堆上申请空间
+		{
+			if(_str)
+			{
+			 cout<<this<<"~String()"<<endl;
+			 free(_str);
+			 _str = nullptr;
+
+			}
+		
+		}
+
+private:
+	char* _str;
+};
+
+void Test()
+{
+	String s1("hello");
+	String s2(s1);
+	//在String类中没有显式给出拷贝构造函数，编译器会自动生成默认拷贝构造函数，将一个对象中的内容拷贝到新对象中，
+	//这种拷贝方式诚挚“浅拷贝”，也叫值拷贝，
+	//浅拷贝的后果：多个对象共同使用一份资源，导致一份资源被多次释放从而引起代码的崩溃
+}
+int main()
+{
+	Test();
+	system("pause");
+	return 0;
+
+}
+#endif
+
+#if 0
+class String{
+	
+public:
+		String(char* str = "")//构造函数
+		{
+			cout<<this<<"String()"<<endl;
+			_str = (char*)malloc(sizeof(char)*(strlen(str)+1));
+			strcpy(_str,str);
+		}
+		~String()//析构函数   _str在堆上申请空间
+		{
+			if(_str)
+			{
+			 cout<<this<<"~String()"<<endl;
+			 free(_str);
+			 _str = nullptr;
+
+			}
+		}
+		String(const String& s)
+		{
+			_str = (char*)malloc(sizeof(strlen(s._str+1)));
+		}
+
+private:
+	char* _str;
+};
+
+void Test()
+{
+	String s1("hello");
+	String s2;
+}
+int main()
+{
+	Test();
+	system("pause");
+	return 0;
+
+}
+#endif
+
+#if 0
+class Date
+{
+public:
+	Date(int year = 2020,int month = 1,int day = 1)//默认构造函数
+		:_year(year)
+		,_month(month)
+		,_day(day)
+	{
+		
+	}
+	Date(const Date& d)
+	{
+		_year = d._year;
+		_month =d._month;
+		_day = d._day;
+		
+	}
+	~Date()
+	{
+		cout<<this<<" "<<"~Date()"<<endl;
+	}
+	void Print()
+	{	
+		cout<<this<<" "<<_year<<" "<<_month<<" "<<_day<<" "<<endl;	
+	}
+
+private:
+	int _year;
+	int _month;
+	int _day;
+};
+void Test()
+{
+	Date d1;
+	Date d2(d1);
+	d2.Print();
+}
+Date func() //一个对象值传递的方式从函数返回
+{
+	Date c;
+	return c;
+}
+int main()
+{
+	Test();
+	func();
+	system("pause");
+	return 0;
+
+}
+#endif
+
+#if 0
+class Date
+{
+public:
+	Date(int year = 2020,int month = 1,int day = 1)//默认构造函数
+		:_year(year)
+		,_month(month)
+		,_day(day)
+	{
+		
+	}
+	Date(const Date& d)
+	{
+		_year = d._year;
+		_month =d._month;
+		_day = d._day;
+		
+	}
+	~Date()
+	{
+		cout<<this<<" "<<"~Date()"<<endl;
+	}
+	void Print()
+	{	
+		cout<<this<<" "<<_year<<" "<<_month<<" "<<_day<<" "<<endl;	
+	}
+	bool operator>(const Date& d)
+	{
+		return _year > d._year ||
+			_year == d._year&& _month > d._month ||
+			_year == d._year&&_month == d._month&&_day>d._day;
+	}
+	bool operator==(const Date& d)
+	{
+		return _year ==d._year&&_month==d._month&&_day==d._day;
+	}
+	bool operator!=(const Date& d)
+	{
+		return !(*this==d);
+	}
+private:
+	int _year;
+	int _month;
+	int _day;
+};
+
+int main()
+{
+	Date d1;
+	Date d2(2222,22,22);
+	int ret = d2>d1;
+	cout<<ret<<endl;
+	system("pause");
+	return 0;
+
+}
+#endif
+
+class Date
+{
+public:
+	Date(int year = 2020,int month = 2,int day = 1)//默认构造函数
+		:_year(year)      //初始化列表
+		,_month(month)
+		,_day(day)
+	{
+		
+	}
+	Date(const Date& d)//拷贝构造函数
+	{
+		_year = d._year;
+		_month = d._month;
+		_day = d._day;
+	}
+	~Date()//析构函数
+	{
+
+	}
+	void Print()
+	{
+		cout<<_year<<"/"<<_month<<"/"<<_day<<endl;
+	}
+	//判断是否是闰年
+	bool IsRyear()
+	{
+		if( ((0 == _year%4)&&(0 != _year%100)) ||(0 == _year %400) )
+			return true;
+		else
+			return false;
+	}
+	//判断天数合法
+	bool DaysAllow()
+	{
+		if(_month == 1 ||_month == 3 ||_month == 5 ||_month == 7 ||_month == 8 ||
+			_month == 10 ||_month == 12 && _day <=31 )
+			return true;
+		if(_month == 4 ||_month == 6 ||_month == 9 ||_month == 11 ||_month == 8 && _day <=30 )
+			return true;
+		if(IsRyear())//是否闰年
+		{
+			//闰年
+			//2月29天
+			if(_month == 2 && _day <= 29)
+				return true;
+			else 
+				return false;
+		
+		}
+		else
+		{
+			//平年
+			if(_month == 2 && _day <= 28)
+				return true;
+			else 
+				return false;
+		
+		
+		}
+	}
+	//月份合法
+bool MonthAllow()
+{
+		if(_month < 12 && _month >1)//合法
+		{
+			return true;
+		}
+		else
+			return false;
+	}
+	bool operator==(const Date& d)
+	{
+		return _year ==d._year&&_month==d._month&&_day==d._day;
+	}
+	bool operator!=(const Date& d)
+	{
+		return!(*this==d);
+}
+	//这个月有多少天
+int Days(int month)
+{
+		if(month == 1 ||month == 3 ||month == 5 ||month == 7 ||month == 8 ||
+			month == 10 ||month == 12 )
+			return 31;
+		if(month == 4 ||month == 6 ||month == 9 ||month == 11  )
+			return 30;
+		if(IsRyear())//是否闰年
+		{
+			//闰年
+		if(month == 2 )
+			return 29;	
+		else 
+			return 28;
+		}
+}
+	//赋值
+	Date& operator=(const Date& d)
+{
+		if(*this!=d)
+		{
+		_year = d._year;
+		_month = d._month;
+		_day = d._day;
+		}
+}
+	
+	//第days天之后的日期
+	Date operator+(int day)
+{
+		Date temp(*this);//创建一个临时的对象
+
+			for(int i = 0; i < day; i++)
+			{
+				 temp._day++; //加一天
+				if(!temp.DaysAllow())//不合法  月份进1 日期清零
+				{
+					temp._day = 1;
+					temp._month += 1;
+					if(!temp.MonthAllow())//月份不合法
+					{
+						temp._year+=1;
+					   temp._month = 1;	
+					}
+				}
+			}
+			return temp;
+}
+	//第days天之前的日期
+Date operator-(int day)
+{
+		Date temp(*this);//创建临时变量
+		for(int i =0; i < day; i++)
+		{
+			temp._day-=1;
+			if(!temp.DaysAllow())//天数不合法
+			{
+				temp._day =Days(temp._month-1) ;
+				temp._month-=1;
+				if(!temp.MonthAllow())//月份不合法
+					{
+						temp._year-=1;
+					   temp._month = 12;	
+					}
+			}
+		
+		}
+			return temp;
+}
+
+
+
+private:
+	int _year;
+	int _month;
+	int _day;
+};
+
+int main()
+{
+	Date d1(2000,12,1);
+	cout<<d1.IsRyear()<<endl;
+	cout<<d1.DaysAllow()<<endl;
+	//d1.operator+(1).Print();
+	d1.operator-(1).Print();
+	
+	system("pause");
+	return 0;
+}
+
