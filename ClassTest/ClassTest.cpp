@@ -751,7 +751,7 @@ public:
 		return _year > d._year ||
 			_year == d._year&& _month > d._month ||
 			_year == d._year&&_month == d._month&&_day>d._day;
-	}
+	} 
 	bool operator==(const Date& d)
 	{
 		return _year ==d._year&&_month==d._month&&_day==d._day;
@@ -778,6 +778,7 @@ int main()
 }
 #endif
 
+#if 0
 class Date
 {
 public:
@@ -802,7 +803,7 @@ public:
 	{
 		cout<<_year<<"/"<<_month<<"/"<<_day<<endl;
 	}
-	//判断是否是闰年
+	//判断是否是闰年1
 	bool IsRyear()
 	{
 		if( ((0 == _year%4)&&(0 != _year%100)) ||(0 == _year %400) )
@@ -812,17 +813,34 @@ public:
 	}
 	//判断天数合法
 	bool DaysAllow()
-	{
+	{    
 		if(_month == 1 ||_month == 3 ||_month == 5 ||_month == 7 ||_month == 8 ||
-			_month == 10 ||_month == 12 && _day <=31 )
-			return true;
-		if(_month == 4 ||_month == 6 ||_month == 9 ||_month == 11 ||_month == 8 && _day <=30 )
-			return true;
+			_month == 10 ||_month == 12  )
+		{
+			if(_day<=31&&_day>0)
+			{
+				return true;
+			}
+			else 
+				return false;
+		}
+		
+		if(_month == 4 ||_month == 6 ||_month == 9 ||_month == 11 ||_month == 8 && _day <=30  )
+		{
+		
+	       if(_day<=30&&_day>0)
+			{
+				return true;
+			}
+			else 
+				return false;
+			
+		}
 		if(IsRyear())//是否闰年
 		{
 			//闰年
 			//2月29天
-			if(_month == 2 && _day <= 29)
+			if(_day <= 29 && _day >0 &&_month == 2 )
 				return true;
 			else 
 				return false;
@@ -831,18 +849,19 @@ public:
 		else
 		{
 			//平年
-			if(_month == 2 && _day <= 28)
+			if(_day <= 29 && _day >0 &&_month == 2 )
 				return true;
 			else 
 				return false;
 		
 		
 		}
-	}
+		return false;
+}
 	//月份合法
 bool MonthAllow()
 {
-		if(_month < 12 && _month >1)//合法
+		if(_month < 12 && _month >0)//合法
 		{
 			return true;
 		}
@@ -863,19 +882,16 @@ int Days(int month)
 		if(month == 1 ||month == 3 ||month == 5 ||month == 7 ||month == 8 ||
 			month == 10 ||month == 12 )
 			return 31;
-		if(month == 4 ||month == 6 ||month == 9 ||month == 11  )
+		else if(month == 4 ||month == 6 ||month == 9 ||month == 11  )
 			return 30;
 		if(IsRyear())//是否闰年
-		{
-			//闰年
-		if(month == 2 )
 			return 29;	
 		else 
 			return 28;
-		}
-}
+}	
 	//赋值
-	Date& operator=(const Date& d)
+	Date& operator=(const Date& d)//赋值运算符重载
+		//参数 ：选择使用引用传参 ： 传参的效率高
 {
 		if(*this!=d)
 		{
@@ -883,10 +899,13 @@ int Days(int month)
 		_month = d._month;
 		_day = d._day;
 		}
+		return *this;
+		//返回值，  一定要有返回值，否则不能连续赋值
+		//a=b=c;----> c--->b  b---->a
 }
 	
 	//第days天之后的日期
-	Date operator+(int day)
+	Date operator+=(int day)
 {
 		Date temp(*this);//创建一个临时的对象
 
@@ -907,16 +926,17 @@ int Days(int month)
 			return temp;
 }
 	//第days天之前的日期
-Date operator-(int day)
+Date operator-=(int day)
 {
 		Date temp(*this);//创建临时变量
 		for(int i =0; i < day; i++)
 		{
 			temp._day-=1;
 			if(!temp.DaysAllow())//天数不合法
-			{
-				temp._day =Days(temp._month-1) ;
+			{	
 				temp._month-=1;
+				temp._day =Days(temp._month) ;
+			
 				if(!temp.MonthAllow())//月份不合法
 					{
 						temp._year-=1;
@@ -927,9 +947,57 @@ Date operator-(int day)
 		}
 			return temp;
 }
-
-
-
+//前置++
+Date& operator++()
+{
+	_day+=1;
+	return *this;
+}
+//后置++
+Date operator++(int)
+{
+	Date temp(*this);
+	_day += 1;
+	return temp;
+}
+//前置--
+Date& operator--()
+{
+	_day-=1;
+	return *this;
+}
+Date operator--(int)
+{
+	Date temp(*this);
+	_day-=1;
+	return temp;
+}
+bool operator>(const Date& d)
+{
+	
+	
+		return _year > d._year ||
+			_year==d._year && _month > d._month ||
+			_year==d._year && _month == d._month || _day > d._day;
+	
+}
+bool operator <(const Date& d)
+{
+	return *this!=d && !(*this > d);
+}
+bool operator>=(const Date& d)
+{
+	return _year >= d._year ||
+			_year==d._year && _month >= d._month ||
+			_year==d._year && _month == d._month || _day >= d._day;
+	
+}
+bool operator<=(const Date& d)
+{
+	return _year <= d._year ||
+			_year==d._year && _month <= d._month ||
+			_year==d._year && _month == d._month || _day <= d._day;
+}
 private:
 	int _year;
 	int _month;
@@ -938,13 +1006,42 @@ private:
 
 int main()
 {
-	Date d1(2000,12,1);
-	cout<<d1.IsRyear()<<endl;
-	cout<<d1.DaysAllow()<<endl;
-	//d1.operator+(1).Print();
-	d1.operator-(1).Print();
+	Date d1(2000,2,1);
+	Date d2(2020,2,2);
+	int ret;
+	ret = d1 > d2;
+	int a = d1<d2;
+	cout<<ret<<endl;
+	cout<<a<<endl;
+
+	
 	
 	system("pause");
 	return 0;
 }
+#endif
 
+
+class Func
+{
+public:
+	Func()
+	{
+		_a = 10;
+	}
+	void set()const
+	{
+		cout<<"set()const"<<endl;
+	}
+private:
+	int _a;
+
+};
+int main()
+{
+    Func a;
+	a.set();
+
+	system("pause");
+	return 0;
+}
