@@ -1021,7 +1021,7 @@ int main()
 }
 #endif
 
-
+#if 0
 class Func
 {
 public:
@@ -1041,6 +1041,47 @@ int main()
 {
     Func a;
 	a.set();
+
+	system("pause");
+	return 0;
+}
+#endif
+
+class Time
+{
+public:
+	///*Time(int hour = 10,int minute = 10,int second = 10)
+	//	:_hour(hour)
+	//	,_minute(minute)
+	//	,_second(second)
+	//{
+	//	cout<<"默认构造函数"<<endl;
+	//}*/
+private:
+	int _hour;
+	int _minute;
+	int _second;
+};
+//在类成员变量中存在自定义类型的，
+class Date
+{
+public:
+	Date(int year = 2020)
+		:_year(year)
+		,_ra(year)
+		//_t(0,0,0)
+	{
+		//构造函数体不是初始化是赋值
+		
+	}
+private:
+	int _year;
+	Time _t;
+	int& _ra;
+};
+int main()
+{
+	Date d;
 
 	system("pause");
 	return 0;
