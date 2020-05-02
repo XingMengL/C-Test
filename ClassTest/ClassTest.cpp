@@ -1047,6 +1047,7 @@ int main()
 }
 #endif
 
+#if 0
 class Time
 {
 public:
@@ -1084,5 +1085,192 @@ int main()
 	Date d;
 
 	system("pause");
+	return 0;
+}
+#endif
+
+#if 0
+class Date
+{
+public:
+	// 构造函数调用：创建了一个对象
+	Date(int year = 1970, int month = 1, int day = 1)
+		: _year(year)
+		, _month(month)
+		, _day(day)
+		//, count(0)
+	{
+		count++;
+		cout << "Date(int,int,int):" << this << endl;
+	}
+
+	// 拷贝构造函数：创建对象
+	Date(const Date& d)
+		: _year(d._year)
+		, _month(d._month)
+		, _day(d._day)
+	{
+		count++;
+		cout << "Date(const Date&):" << this << endl;
+	}
+
+	Date& operator=(const Date& d)
+	{
+		cout << this << " = " << &d << endl;
+		if (this != &d)
+		{
+			_year = d._year;
+			_month = d._month;
+			_day = d._day;
+		}
+
+		return *this;
+	}
+
+	~Date()
+	{
+		count--;
+		cout << "~Date():" << this << endl;
+	}
+
+	void PrintDate()const
+	{
+		cout << this->_year << "/" << this->_month << "/" << this->_day << endl;
+	}
+
+private:
+	int _year;
+	int _month;
+	int _day;
+
+public:
+	// static修饰的成员变量---称为静态成员变量 
+	static int count;  // 注意：静态成员变量在类中只是声明，必须要在类外进行初始化
+};
+
+// 静态成员变量的初始化
+// 注意：静态成员变量在类外进行初始化时不需要添加static关键字
+int Date::count = 0;
+
+
+void TestDate()
+{
+	// 在没有创建d1和d2之前，想要知道现在创建了多少个对象
+	// 静态成员变量可以不通过对象访问，直接使用类名::静态成员变量名字
+	cout << Date::count << endl;
+
+	Date d1;
+	Date d2(d1);
+	cout << d1.count << endl;
+	cout << d2.count << endl;
+}
+
+int main()
+{
+	Date d1;
+	Date d2(d1);
+
+	// d1和d2对象使用的是同一个count---count总共个只有一份，是所有对象共享的一个成员
+	cout << &d1.count << " " << &d2.count << endl;
+
+	// 12-->说明静态成员变量没有存储在对象的空间中
+	cout << sizeof(Date) << endl;
+	TestDate();
+
+	return 0;
+}
+#endif
+
+class Date
+{
+public:
+	// 构造函数调用：创建了一个对象
+	Date(int year = 1970, int month = 1, int day = 1)
+		: _year(year)
+		, _month(month)
+		, _day(day)
+		//, count(0)
+	{
+		count++;
+		cout << "Date(int,int,int):" << this << endl;
+	}
+
+	// 拷贝构造函数：创建对象
+	Date(const Date& d)
+		: _year(d._year)
+		, _month(d._month)
+		, _day(d._day)
+	{
+		count++;
+		cout << "Date(const Date&):" << this << endl;
+	}
+
+	Date& operator=(const Date& d)
+	{
+		cout << this << " = " << &d << endl;
+		if (this != &d)
+		{
+			_year = d._year;
+			_month = d._month;
+			_day = d._day;
+		}
+
+		return *this;
+	}
+
+	~Date()
+	{
+		count--;
+		cout << "~Date():" << this << endl;
+	}
+
+	void PrintDate()const
+	{
+		count = 1000;
+		cout<<count<<endl;
+		cout << this->_year << "/" << this->_month << "/" << this->_day << endl;
+	}
+
+private:
+	int _year;
+	int _month;
+	int _day;
+
+public:
+	// static修饰的成员变量---称为静态成员变量 
+	static int count;  // 注意：静态成员变量在类中只是声明，必须要在类外进行初始化
+};
+
+// 静态成员变量的初始化
+// 注意：静态成员变量在类外进行初始化时不需要添加static关键字
+int Date::count = 0;
+
+
+void TestDate()
+{
+	// 在没有创建d1和d2之前，想要知道现在创建了多少个对象
+	// 静态成员变量可以不通过对象访问，直接使用类名::静态成员变量名字
+	cout << Date::count << endl;
+
+	Date d1;
+	Date d2(d1);
+	cout << d1.count << endl;
+	cout << d2.count << endl;
+}
+
+int main()
+{
+	Date d1;
+	Date d2(d1);
+
+	// d1和d2对象使用的是同一个count---count总共个只有一份，是所有对象共享的一个成员
+	cout << &d1.count << " " << &d2.count << endl;
+
+	// 12-->说明静态成员变量没有存储在对象的空间中
+	cout << sizeof(Date) << endl;
+	TestDate();
+	d1.PrintDate();
+	system("pause");
+
 	return 0;
 }
