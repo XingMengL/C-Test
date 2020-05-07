@@ -1,7 +1,7 @@
 #include <iostream>
 #include <windows.h>
 using namespace std;
-
+#if 0
 // C++中为什么要重新实现一套动态内存管理？
 // 首先：C语言中的动态内存管理方式在C++中仍旧可以使用
 // 原因1：C语言中的方式使用比较麻烦 malloc calloc realloc
@@ -17,7 +17,7 @@ using namespace std;
 class A
 {
 public:
-	A(int t )
+	A(int t = 10)
 		:_t(t)
 	{
 		cout<<"A()"<<this<<endl;
@@ -53,6 +53,10 @@ void test2()
 	// new 真正创建了一个对象，该对象的空间在堆上
 	A* pt2 = new A(10); // new在申请空间会调用构造函数
 
+	A* pt3 = new A[10];
+
+
+
 	free(pt1);// free不会调用析构函数
 	delete pt2;// delete会调用对象的析构函数
 	
@@ -61,11 +65,83 @@ void test2()
  在C++中 ，如果想要在堆上申请空间：
  1. 采用malloc/calloc/realloc，不能申请对象的空间
  2. 采用new/new[] 可以调用构造函数能申请对象空间，注意：如果使用new[]申请连续的空间时，该类必须提供默认构造函数
-*/
+ 
+
+ 注意：
+  malloc必须用free释放空间
+  new/delete
+  new[]/delete[]
+  必须成对使用
+ */
+#if 0
 int main()
 {
 	test2();
 
+	system("pause");
+	return 0;
+}
+#endif
+void Testint()
+{
+	int* p1 = (int*)malloc(sizeof(int));
+	delete p1;
+
+	int* p2 = (int*)malloc(sizeof(int));
+	delete p2;
+
+	int* p3 = new int;
+	free(p3);
+
+	int* p4 = new int;
+	delete[] p4;
+
+	int* p5 = new int[10];
+	free(p5);
+
+	int* p6 = new int[10];
+	delete p6;
+}
+int main()
+{
+	Testint();
+
+	system("pause");
+	return 0;
+}
+#endif
+
+
+
+class A
+{
+public:
+	A(int t = 10)
+		:_t(t)
+	{
+		cout<<"A()"<<this<<endl;
+	}
+	~A()
+	{
+		cout<<"~A()"<<this<<endl;
+	}
+	static void print();
+private:
+	int _t;
+	static int _a;
+};
+int A::_a = 10;
+void A::print()
+{
+	cout<<10<<endl;
+}
+
+int main()
+{
+	static int a;
+	cout<<a<<endl;
+	A b;
+	b.print();
 	system("pause");
 	return 0;
 }
