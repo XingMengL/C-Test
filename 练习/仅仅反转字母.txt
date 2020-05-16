@@ -1,0 +1,48 @@
+给定一个字符串 S，返回 “反转后的” 字符串，其中不是字母的字符都保留在原地，而所有字母的位置发生反转。
+思路：
+用前后两个指针找到字母进行交换
+
+class Solution {
+public:
+    string reverseOnlyLetters(string s) {
+    // c_str以c格式返回字符串，返回的是字符串的首地址 cosnt char*
+    char left = 0;
+    char right = s.size()-1;
+
+    while(left < right)
+    {
+        //从左往右找字母
+        while(left < right)
+        {
+            //找到字母后停下
+            if(isalpha(s[left]))
+            break;
+            
+            left++;
+        }
+
+        //从右往左找字母
+        while(left < right)
+        {
+            //找到字母后停下
+            if(isalpha(s[right]))
+            break;
+            
+            right--;
+        }
+       if(left >= right)
+       break;
+       else
+       {
+           //进行交换
+           swap(s[left],s[right]);
+           //继续找
+            left++;
+            right--;
+       }
+    }
+    return s;
+    }
+};
+
+
