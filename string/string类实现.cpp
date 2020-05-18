@@ -84,6 +84,7 @@ int main()
 }
 #endif
 
+#if 0
 namespace String
 {
 	class string
@@ -120,18 +121,51 @@ namespace String
 				strcpy(_str,str);
 			}
 		}
-
+		//传统写法
+		/*
 		//拷贝构造函数
 		string(const string& s)
 			:_str(new char [strlen(s._str)]+1) // 
 		{
 			strcpy(_str,s._str);
 		}
-		string operator=(const string& s)
+		*/
+
+		//简洁写法
+		//拷贝构造函数
+		string(const string& s)
 		{
-			_str = s._str;
+			string strtemp(s._str);
+			swap(_str, strtemp._str);
+
+		}
+
+
+		// 传统写法
+		/*
+		string& operator=(const string& s)
+		{
+			if(this!= &s)
+			{
+				//重新开辟空间
+				//将s2空间中的内容拷贝到新的空间中
+				//将s1中旧空间释放掉
+				//让s1指向新空间
+				char* temp = new char[strlen(s._str)+1];
+				strcpy(temp,s._str);
+				delete [] _str;
+				_str = temp;
+			}
+			return *this;
+		}*/
+
+		string& operator=(string s)//传参值拷贝 
+		{
+			swap(_str,s._str);
 			return *this;
 		}
+
+
 		~string()//析构函数
 		{
 
@@ -158,6 +192,40 @@ void Test1()
 int main()
 {
 	Test1();
+	system("pause");
+	return 0;
+}
+#endif
+
+
+#include <stdio.h>
+
+
+int area(int r)
+{
+	return r*r*3.14;
+}
+/*double fun()
+{
+	int i = 0;
+	double sum = 0;
+	for(i = 1;i <=20;i++)
+	{
+		sum += (i/(2*i+1));
+	
+	}
+	return sum;
+}*/
+int main()
+{
+	double i = 0;
+	double sum = 0;
+	for(i = 1; i <= 20; i++)
+	{
+		sum += i/(2*i+1);
+		cout<<sum<<endl;	
+	}
+
 	system("pause");
 	return 0;
 }
