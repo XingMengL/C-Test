@@ -187,6 +187,42 @@ void Test7()
 
 
 }
+//迭代器失效
+
+// 原因：vector进行了扩容，申请了新空间，导致迭代器是一个野指针 
+void Test8()
+{
+	int array[] = {1,2,3,4,5};
+	vector<int> v1(array,array+sizeof(array)/sizeof(array[0]));
+	auto it = v1.begin();
+	//v1.resize(10);
+	//v1.push_back(6);
+	//v1.reserve(10);
+
+	while(it != v1.end())
+	{
+		cout<<*it<<" ";
+		it++;
+	}
+	cout<<endl;
+}
+void Test9()
+{
+	int array[] = {1,2,3,4,5,6,7,8,9,0};
+	vector<int> v1(array,array+sizeof(array)/sizeof(array[0]));
+
+	//需要将vectoe中的偶数删除
+	auto it = v1.begin();
+	while(it != v1.end())
+	{
+		if(*it%2 == 0)
+		{
+			v1.erase(it);
+		}
+		else
+			++it;
+	}
+}
 int main()
 {
 	//Test1();
@@ -195,7 +231,9 @@ int main()
 	//Test4();
 	//Test5();
 	//Test6();
-	Test7();
+	//Test7();
+	//Test8();
+	Test9();
 	system("pause");
 	return 0;
 }
