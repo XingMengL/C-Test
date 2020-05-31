@@ -197,7 +197,7 @@ int main()
 }
 #endif
 
-
+#if 0
 #include <stdio.h>
 
 
@@ -216,16 +216,90 @@ int area(int r)
 	}
 	return sum;
 }*/
-int main()
+int main() 
 {
 	double i = 0;
 	double sum = 0;
 	for(i = 1; i <= 20; i++)
 	{
 		sum += i/(2*i+1);
-		cout<<sum<<endl;	
+		
 	}
 
 	system("pause");
 	return 0;
+}
+#endif
+
+#include <string.h>
+namespace xml
+{
+	class String
+	{
+	public:
+		String(const char* s = "")
+		{
+			if(s == nullptr)
+			{
+				_str = "";
+			}
+			else
+			{
+				_str = new char[strlen(s)+1];  // ·ÖÅä¿Õ¼ä
+				strcpy(_str,s);
+
+			}
+		}
+		// Ç³¿½±´
+		/*String(const String& s)
+			:_str(s._str)
+		{
+		
+		}*/
+		
+		// Éî¿½±´
+		/*String(const String& s)
+			:_str(new char[strlen(s._str)+1])
+		{
+			strcpy(_str,s._str);
+		}*/
+		String(const String& s)
+		{
+			String temp(s._str); // String temp("×Ö·û´®")£»
+			//String temp("qwer");
+			swap(_str,temp._str);
+		}
+
+		// Ç³¿½±´
+		/*String& operator=(const String& s)
+		{
+			_str = s._str;
+			return *this;
+		}*/
+		String& operator=(const String& s)
+		{
+			if(*this != &s)
+			{
+			
+			}
+		
+		}
+		~String()
+		{
+			delete [] _str;
+			_str = nullptr;
+		}
+	
+	private:
+		char* _str;
+	};
+
+
+}
+
+int main()
+{
+	xml::String s1("qwer");
+	xml::String s2(s1);
+
 }
